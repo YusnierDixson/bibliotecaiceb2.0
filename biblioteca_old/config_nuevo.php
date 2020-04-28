@@ -145,7 +145,7 @@ echo $OUTPUT->header();
             </tr>
             <tr>
                 <td height="30"><b>ISBN</b></td>
-                <td><input name="isbn" type="text" id="isbn" size="70"/></td>
+                <td><input name="isbn"  type="text" id="isbn" size="70"/></td>
             </tr>
             <tr>
                 <td height="30"><b>Idioma</b></td>
