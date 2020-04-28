@@ -1,7 +1,7 @@
 $(document).ready(function(){ 
     let edit=false;
   $('#task-result').hide();
-//fetchTasks();  
+fetchTasks();  
     $('#search').keyup(function(e){
          let search=$('#search').val();
          $.ajax({
@@ -10,16 +10,21 @@ $(document).ready(function(){
              data:{search},
              success:function(response){
                 let tasks= JSON.parse(response);
-                console.log(response);
-                console.log(tasks); 
                 let template='';
-                tasks.forEach(task=>{
-                    template+=`<li>
-                         ${task.name}
-                         </li>`
-                });
-                $('#container').html(template);
-                $('#task-result').show();
+
+                for (var clave in tasks){
+                    // Controlando que json realmente tenga esa propiedad
+                    if (tasks.hasOwnProperty(clave)) {
+                      // Mostrando en pantalla la clave junto a su valor.
+                      template+=`<li>
+                      ${tasks[clave].titulo}
+                      </li>`
+                     
+                    }
+                  }
+
+                  $('#container').html(template);
+                  $('#task-result').show();
                     
                               
 
@@ -27,18 +32,37 @@ $(document).ready(function(){
          })
          
      })
-
+     
+    
+    
      $('#task-form').submit(function(e){
       const postData={
-        name:$('#name').val(),
-        description:$('#description').val(),
-        id:$('#taskId').val(),
+        title:$('#title').val(),
+        autor:$('#autor').val(),
+        type:$('#type').val(),
+        asignatura:$('#asignatura').val(),
+        type_lect:$('#type_lect').val(),
+        year:$('#year').val(),
+        claves:$('#claves').val(),
+        conocimiento:$('#conocimiento').val(),
+        tema:$('#tema').val(),
+        revista:$('#revista').val(),
+        editorial:$('#editorial').val(),
+        idioma:$('#idioma').val(),
+        isbn:$('#isbn').val(),
+        issn:$('#issn').val(),
+        url:$('#url').val(),
+        place:$('#place').val(),
+        
       };
-      let url= edit===false ? 'task-add.php':'task-edit.php';
+      let urls= edit===false ? 'recurso-add.php':'recurso-edit.php';
 //Funcion de JQuery envia info al back
-        $.post(url,postData,function(response){
+        $.post(urls,postData,function(response){
             fetchTasks();
+            console.log(response);
+
             $('#task-form').trigger('reset');
+            
         });
              //Evita el envio de un formulario es decir que se refresque
 
@@ -50,22 +74,29 @@ $(document).ready(function(){
    function fetchTasks() {
         //Esto se ejecuta apenas inicie la aplicación no depende de ningún evento
     $.ajax({
-        url:'task-list.php',
+        url:'recursos-list.php',
         type:'GET',
         success: function(response){
             let tasks=JSON.parse(response);
             let template='';
-                 tasks.forEach(task=>{
-                     template+=`<tr taskId="${task.id}">
-                     <td>${task.id}</td>
-                    <td> <a href="#" class="task-item">${task.name}</a></td>
-                     <td>${task.description}</td>
-                     <td>
-                     <button class="task-delete btn btn-danger btn-block">DELETE</button>
-
-                     </td>        
-                     </tr>`
-                 });
+            for (var clave in tasks){
+                    // Controlando que json realmente tenga esa propiedad
+                    if (tasks.hasOwnProperty(clave)) {
+                      // Mostrando en pantalla la clave junto a su valor.
+                      template+=`<tr taskId="${tasks[clave].id}">
+                      <td>${tasks[clave].id}</td>
+                     <td> <a href="#" class="task-item">${tasks[clave].titulo}</a></td>
+                      <td>${tasks[clave].autor}</td>
+                      <td>${tasks[clave].materia}</td>
+                      <td>
+                      <button class="task-delete btn btn-danger btn-block">ELIMINAR</button>
+ 
+                      </td>        
+                      </tr>`
+                     
+                    }
+                  }
+            
                  $('#tasks').html(template);
         }
     })
@@ -74,11 +105,11 @@ $(document).ready(function(){
    }
 
    $(document).on('click','.task-delete', function(){
-     if (confirm('Are you sure you want to delete it?')) {
+     if (confirm('Esta seguro de querer eliminar el recurso seleccionado')) {
            //A partir del boton ir subiendo eleentos hasta llegar al id parent   
     let element=$(this)[0].parentElement.parentElement;//[0] esta el boton q doy click
     let id=$(element).attr('taskId');//Esto lo declaro en el momento de llenar la tabla
-    $.post('task-delete.php',{id},function(response){
+    $.post('recurso-delete.php',{id},function(response){
         fetchTasks();
 
             });

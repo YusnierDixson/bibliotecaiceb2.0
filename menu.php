@@ -49,7 +49,7 @@ $resultcat = $DB->get_records_sql($sqlCat);
     </ul>
     <ul class="navbar-nav ml-auto">
     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" id="search" type="search" placeholder="Buscar">
+      <input class="form-control mr-sm-2" id="search" type="search" placeholder="Buscar por titulo">
       <button class="btn btn-secondary my-2 my-sm-0" type="submit">Buscar</button>
     </form>
     </ul>
@@ -131,6 +131,11 @@ $resultcat = $DB->get_records_sql($sqlCat);
                            <label for="editorial">Editorial</label>
                            <input type="text" id="editorial" placeholder="Publicado por" class="form-control">
                        </div>
+                       <div class="form-group" id="div_place" style="display:none;">
+                           <label for="editorial">Lugar Publicación</label>
+                           <input type="text" id="place" placeholder="Publicado en" class="form-control">
+                       </div>
+
                        <div class="form-group" id="div_issn" style="display:none;">
                            <label for="issn">ISSN</label>
                            <input type="text" id="issn" placeholder="ISSN" class="form-control">
@@ -169,8 +174,9 @@ $resultcat = $DB->get_records_sql($sqlCat);
                <thead>
                    <tr>
                        <td>Id</td>
-                       <td>Name</td>
-                       <td>Description</td>
+                       <td>Titulo</td>
+                       <td>Autor(es)</td>
+                       <td>Asignatura</td>
                    </tr>
                </thead>
                <tbody id="tasks">
