@@ -22,7 +22,7 @@ $resultcat = $DB->get_records_sql($sqlCat);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.min.css" crossorigin="anonymous">
-    
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <title>Biblioteca ICEB</title>
 </head>
 <body>
@@ -35,7 +35,7 @@ $resultcat = $DB->get_records_sql($sqlCat);
   <div class="collapse navbar-collapse" id="navbarColor01">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/course/view.php?id=<?php echo $courseid;?>&section=1"">Regresar Curso <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Features</a>
@@ -44,7 +44,7 @@ $resultcat = $DB->get_records_sql($sqlCat);
         <a class="nav-link" href="#">Pricing</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">About</a>
+        <a class="nav-link" target="_blank" href="<?php echo new moodle_url('/message/index.php?id=43'); ?>">Soporte</a>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">
@@ -85,7 +85,7 @@ $resultcat = $DB->get_records_sql($sqlCat);
                           <select class="form-control" id="asignatura">
                           <option value="0">Seleccione</option>
                           <?php foreach ($sections as $row) {?>
-                             <option value="<?php if($row->name!=NULL||$row->name!="Aspectos Generales del Programa") echo $row->name ?>"><?php if($row->name!=NULL||$row->name!="Aspectos Generales del Programa") echo $row->name ?></option>
+                             <option value="<?php echo $row->name ?>"><?php echo $row->name ?></option>
                         <?php } ?>
                           </select>
                         </div>
@@ -107,11 +107,11 @@ $resultcat = $DB->get_records_sql($sqlCat);
                         <?php } ?>
                           </select>
                         </div>
-                       <div class="form-group">
+                       <div class="form-group" id="div_resum">
                           <label for="resumen">Resumen</label>
                            <textarea  id="resumen" required="true" cols="30" rows="8" class="form-control" placeholder="Resumen"></textarea>
                        </div>
-                       <div class="form-group">
+                       <div class="form-group" id="div_clave">
                            <label for="claves">Palabras claves</label>
                            <input type="text" required="true" id="claves" placeholder="Palabras claves" class="form-control">
                        </div>
