@@ -170,13 +170,15 @@ $resultcat = $DB->get_records_sql($sqlCat);
                     <ul id="container"></ul>
                 </div>
             </div>
-           <table class="table table-bordered table-sm">
+           <table class="table table-hover table-sm">
                <thead>
+                 
                    <tr>
-                       <td>Id</td>
-                       <td>Titulo</td>
-                       <td>Autor(es)</td>
-                       <td>Asignatura</td>
+                   <th scope="col"></th>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Autor(es)</th>
+                    <th scope="col">Asignatura</th>
+                    <th scope="col"></th>
                    </tr>
                </thead>
                <tbody id="tasks">

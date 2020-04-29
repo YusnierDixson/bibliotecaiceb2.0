@@ -12,13 +12,14 @@ fetchTasks();
              success:function(response){
                 let tasks= JSON.parse(response);
                 let template='';
-
+                  let titu=``;
                 for (var clave in tasks){
                     // Controlando que json realmente tenga esa propiedad
+                    titu=tasks[clave].titulo;
                     if (tasks.hasOwnProperty(clave)) {
                       // Mostrando en pantalla la clave junto a su valor.
-                      template+=`<li>
-                      ${tasks[clave].titulo}
+                      template+=`<li><a href="#" class="task-item">${newTitle(titu,80)}</a>
+                      
                       </li>`
                      
                     }
@@ -104,9 +105,9 @@ fetchTasks();
                       asig=tasks[clave].materia;
                       template+=`<tr taskId="${tasks[clave].id}">
                       <td>${icon}</td>
-                     <td> <a href="#" class="task-item">${newTitle(titu)}</a></td>
-                      <td>${newTitle(aut)}</td>
-                      <td>${newTitle(asig)}</td>
+                     <td> <a href="#" class="task-item">${newTitle(titu,15)}</a></td>
+                      <td>${newTitle(aut,15)}</td>
+                      <td>${newTitle(asig,15)}</td>
                       <td>
                       <button class="task-delete btn btn-danger btn-sm">ELIMINAR</button>
  
@@ -220,8 +221,8 @@ function inicial() {
   $('#div_clave').hide();
   $('#div_resum').hide();
 }
-function newTitle(title) {
-  let shortTitle=title.substr(0,15);
+function newTitle(title,leng) {
+  let shortTitle=title.substr(0,leng);
   let punt='...';
   let newTitle=shortTitle.concat(punt);
   return newTitle;
