@@ -38,7 +38,7 @@ $resultcat = $DB->get_records_sql($sqlCat);
         <a class="nav-link" href="/course/view.php?id=<?php echo $courseid;?>&section=1"">Regresar Curso <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Features</a>
+        <a class="nav-link" href="/biblioteca/searchs.php">Catálogo</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Pricing</a>
@@ -109,38 +109,38 @@ $resultcat = $DB->get_records_sql($sqlCat);
                         </div>
                        <div class="form-group" id="div_resum">
                           <label for="resumen">Resumen</label>
-                           <textarea  id="resumen" required="true" cols="30" rows="8" class="form-control" placeholder="Resumen"></textarea>
+                           <textarea  id="resumen"  cols="30" rows="8" class="form-control" placeholder="Resumen"></textarea>
                        </div>
                        <div class="form-group" id="div_clave">
                            <label for="claves">Palabras claves</label>
-                           <input type="text" required="true" id="claves" placeholder="Palabras claves" class="form-control">
+                           <input type="text"  id="claves" placeholder="Palabras claves" class="form-control">
                        </div>
                        <div class="form-group">
                            <label for="conocimieno">Área de Conocimiento</label>
-                           <input type="text" required="true" id="conocimiento" placeholder="Área de Conocimiento" class="form-control">
+                           <input type="text"  id="conocimiento" placeholder="Área de Conocimiento" class="form-control">
                        </div>
                        <div class="form-group">
                            <label for="tema">Tema</label>
-                           <input type="text" required="true" id="tema" placeholder="Tema" class="form-control">
+                           <input type="text"  id="tema" placeholder="Tema" class="form-control">
                        </div>
-                       <div class="form-group" id="div_revista" style="display:none;">
+                       <div class="form-group" id="div_revista" >
                            <label for="revista">Revista</label>
                            <input type="text" id="revista" placeholder="Revista" class="form-control">
                        </div>
-                       <div class="form-group" id="div_edit" style="display:none;">
+                       <div class="form-group" id="div_edit" >
                            <label for="editorial">Editorial</label>
                            <input type="text" id="editorial" placeholder="Publicado por" class="form-control">
                        </div>
-                       <div class="form-group" id="div_place" style="display:none;">
+                       <div class="form-group" id="div_place" >
                            <label for="editorial">Lugar Publicación</label>
                            <input type="text" id="place" placeholder="Publicado en" class="form-control">
                        </div>
 
-                       <div class="form-group" id="div_issn" style="display:none;">
+                       <div class="form-group" id="div_issn" >
                            <label for="issn">ISSN</label>
                            <input type="text" id="issn" placeholder="ISSN" class="form-control">
                        </div>
-                       <div class="form-group" id="div_isbn" style="display:none;">
+                       <div class="form-group" id="div_isbn" >
                            <label for="isbn">ISBN</label>
                            <input type="text" id="isbn" placeholder="ISBN" class="form-control">
                        </div>
@@ -166,6 +166,10 @@ $resultcat = $DB->get_records_sql($sqlCat);
         </div>
         <div class="col-md-7">
             <div class="card my-4" id="task-result" >
+            <div class="alert alert-dismissible alert-primary" id="mssg">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>No se encuentra este titulo!</strong> <a href="#" class="alert-link">Modifique criterio de búsqueda</a> 
+                    </div>
                 <div class="card-body">
                     <ul id="container"></ul>
                 </div>
@@ -185,6 +189,29 @@ $resultcat = $DB->get_records_sql($sqlCat);
 
                </tbody>
            </table>
+
+  <ul class="list-group">
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    Artículos de revistas
+    <span class="badge badge-primary badge-pill" id="cant_rev"></span>
+  </li>
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    Libros
+    <span class="badge badge-primary badge-pill"id="cant_libro" ></span>
+  </li>
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    Tesis
+    <span class="badge badge-primary badge-pill"id="cant_tesis"></span>
+  </li>
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    Monografías
+    <span class="badge badge-primary badge-pill"id="cant_mono"></span>
+  </li>
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    Genéricos
+    <span class="badge badge-primary badge-pill"id="cant_gen"></span>
+  </li>
+</ul>
         </div>
     </div>
 </div>
