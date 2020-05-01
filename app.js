@@ -2,9 +2,11 @@ $(document).ready(function(){
     let edit=false;
   $('#task-result').hide();
   $('#mssg').hide();
+  $('#search-simple').hide();
   inicial();
 fetchTasks();  
 estadistica();
+
     $('#search').keyup(function(e){
          let search=$('#search').val();
          $.ajax({
@@ -13,12 +15,10 @@ estadistica();
              data:{search},
              success:function(response){
               $('#mssg').hide();
-               
                 let tasks= JSON.parse(response);
                 let template='';
-                  let titu=``;
-               
-                  if(Object.entries(tasks).length === 0){
+                let titu=``;
+                if(Object.entries(tasks).length === 0){
                     $('#mssg').show();
                     $('#task-result').hide();
                   }
@@ -56,7 +56,9 @@ estadistica();
            $('#mssg').hide();
             
              let tasks= JSON.parse(response);
+                        
              let template='';
+             let template1='';
              let titu='';
              let aut='';
              let asig='';
@@ -85,25 +87,37 @@ estadistica();
                   titu=tasks[clave].titulo;
                   aut=tasks[clave].autor;
                   asig=tasks[clave].materia;
+                 
                   template+=`<tr taskId="${tasks[clave].id}">
                   <td>${icon}</td>
                  <td> <a href="#" class="task-item">${newTitle(titu,15)}</a></td>
                   <td>${newTitle(aut,15)}</td>
                   <td>${newTitle(asig,15)}</td>
                   <td>
-                  <a href="recurso-detalle.php?cat=${tasks[clave].idcategoria}&id=${tasks[clave].id}" target="_black" class="btn btn-primary btn-sm" role="button">Ver</a>
-
+                  <a href="recurso-detalle.php?cat=${tasks[clave].idcategoria}&id=${tasks[clave].id}" target="_black" class="btn btn-secondary btn-sm" role="button">Ver</a>
+                   <button id="recur_del" class="recurso-delete btn btn-danger btn-sm">ELIMINAR</button>
+                  </td>        
+                  </tr>`
+                  template1+=`<tr taskId="${tasks[clave].id}">
+                  <td>${icon}</td>
+                 <td> <a href="#" class="task-item">${newTitle(titu,15)}</a></td>
+                  <td>${newTitle(aut,15)}</td>
+                  <td>${newTitle(asig,15)}</td>
+                  <td>
+                  <a href="recurso-detalle.php?cat=${tasks[clave].idcategoria}&id=${tasks[clave].id}" target="_black" class="btn btn-secondary btn-sm" role="button">Ver</a>
+                   
                   </td>        
                   </tr>`
                  
                 }
                }
-              
+             
                $('#tasks-searchs').html(template);
-                           
+               $('#tasks-searchs-simple').html(template1);     
 
           }
       })
+ 
       
   })
     
@@ -158,6 +172,7 @@ estadistica();
             let icon=`<i class="fa fa-book"></i>`;
             
             for (var clave in tasks){
+              
                     // Controlando que json realmente tenga esa propiedad
                     if (tasks.hasOwnProperty(clave)) {
                       // Mostrando en pantalla la clave junto a su valor.
@@ -190,6 +205,7 @@ estadistica();
                   }
             
                  $('#tasks').html(template);
+                
         }
     })
 
@@ -201,17 +217,24 @@ estadistica();
        url:'count.php',
        type:'GET',
        success: function(response){
-             
+                     
          let estadis=JSON.parse(response);
+               
          $('#cant_rev').text(estadis.revista);
          $('#cant_libro').text(estadis.libro);
          $('#cant_tesis').text(estadis.tesis);
          $('#cant_mono').text(estadis.mono);
          $('#cant_gen').text(estadis.generi);
+         if(estadis.isadmin==false){
+          $('#edicion').hide();
+          $('#search-avanzado').hide();
+          $('#search-simple').show();
+         }
        }
      })
      
    }
+
 
    $(document).on('click','.task-delete', function(){
      if (confirm('Esta seguro de querer eliminar el recurso seleccionado')) {
@@ -226,6 +249,30 @@ estadistica();
      }
     
    })
+   $(document).on('click','.recurso-delete', function(){
+    if (confirm('Esta seguro de querer eliminar el recurso seleccionado')) {
+          //A partir del boton ir subiendo eleentos hasta llegar al id parent   
+   let element=$(this)[0].parentElement.parentElement;//[0] esta el boton q doy click
+   let id=$(element).attr('taskId');//Esto lo declaro en el momento de llenar la tabla
+   $.post('recurso-delete.php',{id},function(response){
+       //fetchTasks();
+       location.reload();
+       estadistica();
+
+           });
+    }
+   
+  })
+  $(document).on('click','#edicion',function(){
+    if ($(this).prop('checked')) {
+      $('#search-avanzado').show();
+      $('#search-simple').hide();
+    } else {
+      $('#search-avanzado').hide();
+      $('#search-simple').show();
+    }
+
+  })
 
    $(document).on('click','.task-item',function(){
     let element=$(this)[0].parentElement.parentElement;//[0] esta el boton q doy click

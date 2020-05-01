@@ -624,7 +624,7 @@ echo $OUTPUT->header();
                     <tbody>
                     <?php foreach ($result as $row){ ?>
                         <tr>
-                            <td><a href="busqueda_detalle.php?cat=<?php echo $row->id1?>&id=<?php echo $row->id?>" target="_black"><i class="fa fa-file-text" aria-hidden="true"></i> <?php echo substr_replace(substr($row->titulo,0,45),"...",45)?>
+                            <td><a href="recurso-detalle.php?cat=<?php echo $row->id1?>&id=<?php echo $row->id?>" target="_black"><i class="fa fa-file-text" aria-hidden="true"></i> <?php echo substr_replace(substr($row->titulo,0,45),"...",45)?>
                                 </a></td>
 
 
@@ -649,7 +649,7 @@ echo $OUTPUT->header();
                     <tbody>
                     <?php foreach ($result2 as $row){ ?>
                         <tr>
-                            <td><a href="busqueda_detalle.php?cat=<?php echo $row->id1?>&id=<?php echo $row->id?>" target="_black"><i class="fa fa-file-text" aria-hidden="true"></i>
+                            <td><a href="recurso-detalle.php?cat=<?php echo $row->id1?>&id=<?php echo $row->id?>" target="_black"><i class="fa fa-file-text" aria-hidden="true"></i>
                             <?php echo substr_replace(substr($row->titulo,0,45),"...",45)?></a></td>
 
                         </tr>

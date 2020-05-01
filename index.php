@@ -49,7 +49,7 @@ $resultcat = $DB->get_records_sql($sqlCat);
     </ul>
     <ul class="navbar-nav ml-auto">
     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" id="search-gen" type="search" placeholder="Buscar por titulo">
+      <input class="form-control mr-sm-2" id="search" type="search" placeholder="Buscar por titulo">
       <button class="btn btn-secondary my-2 my-sm-0" type="submit">Buscar</button>
     </form>
     </ul>
@@ -59,78 +59,31 @@ $resultcat = $DB->get_records_sql($sqlCat);
 <div class="container p-4">
     <div class="row">
         <div class="col-md-3">
-        <ul class="list-group">
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    Artículos de revistas
-    <span class="badge badge-primary badge-pill" id="cant_rev"></span>
-  </li>
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    Libros
-    <span class="badge badge-primary badge-pill"id="cant_libro" ></span>
-  </li>
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    Tesis
-    <span class="badge badge-primary badge-pill"id="cant_tesis"></span>
-  </li>
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    Monografías
-    <span class="badge badge-primary badge-pill"id="cant_mono"></span>
-  </li>
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    Genéricos
-    <span class="badge badge-primary badge-pill"id="cant_gen"></span>
-  </li>
-</ul>
-        <div class="card border-secondary mb-3" style="max-width: 40rem;">
-  
-</div>
+           <div class="list-group">
+             <a href="#" class="list-group-item list-group-item-action active">
+             Cras justo odio
+             </a>
+             <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in
+             </a>
+            <a href="#" class="list-group-item list-group-item-action disabled">Morbi leo risus
+              </a>
+           </div>
         </div>
         <div class="col-md-9">
-        <div class="form-group">
-    <div class="custom-control custom-switch" id="edicion">
-      <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="checked">
-      <label class="custom-control-label" for="customSwitch1">Editar recursos</label>
-    </div>
+        <div class="jumbotron">
+        <h1 class="display-5">Bienvenidos a la Biblioteca de ICEB</h1>
+        <p class="lead">A continuación encontrarás los diferentes recursos bibliográficos especializados de los que dispones para profundizar y ampliar conocimientos relacionados con tu programa de estudios. </p>
+        <hr class="my-4">
+         <p>Contamos con un catálogo con diferentes tipos de recursos utilizados para los programas de estudios</p>
+         <p class="lead">
+         <a class="btn btn-primary btn-lg" href="/biblioteca/searchs.php" role="button">Saber más</a>
+         </p>
+         </div>
+         </div>
 
-           <table class="table table-hover table-sm" id="search-avanzado">
-               <thead>
-                 
-                   <tr>
-                   <th scope="col"></th>
-                    <th scope="col">Titulo</th>
-                    <th scope="col">Autor(es)</th>
-                    <th scope="col">Asignatura</th>
-                    <th scope="col"></th>
-                   </tr>
-               </thead>
-               <tbody id="tasks-searchs">
-
-               </tbody>
-
-           </table>
-           <table class="table table-hover table-sm" id="search-simple">
-               <thead>
-                 
-                   <tr>
-                   <th scope="col"></th>
-                    <th scope="col">Titulo</th>
-                    <th scope="col">Autor(es)</th>
-                    <th scope="col">Asignatura</th>
-                    <th scope="col"></th>
-                   </tr>
-               </thead>
-
-         
-               <tbody id="tasks-searchs-simple">
-
-               </tbody>
-               </div>
-
-           </table>
-
-        </div>
     </div>
 </div>
+
 
 
     <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>

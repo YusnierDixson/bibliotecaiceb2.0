@@ -2,6 +2,8 @@
 require_once(dirname(__FILE__) . '../../config.php');
 global $DB;
 
+
+
 if(isset($_POST['id'])){
 $id=$_POST['id'];
 
