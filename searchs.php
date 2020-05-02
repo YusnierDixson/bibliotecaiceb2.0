@@ -2,6 +2,16 @@
 require_once(dirname(__FILE__) . '../../config.php');
 global $DB;
 require_login();
+
+$admins = get_admins();
+$isadmin = false;
+foreach($admins as $admin) {
+    if ($USER->id == $admin->id) {
+        $isadmin = true;
+        break;
+    }
+}
+
 $courseid = $_SESSION['idCurso'];
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 $category = $DB->get_record('course_categories', array("id" => $courseid));
@@ -27,7 +37,7 @@ $resultcat = $DB->get_records_sql($sqlCat);
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="/biblioteca/menu.php">Biblioteca</a>
+  <a class="navbar-brand" href="/biblioteca">Biblioteca</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -40,8 +50,13 @@ $resultcat = $DB->get_records_sql($sqlCat);
       <li class="nav-item">
         <a class="nav-link" href="/biblioteca/searchs.php">Catálogo</a>
       </li>
+      <?php if($isadmin) {?>
+      <li class="nav-item" id="manager">
+        <a class="nav-link" href="/biblioteca/menu.php">Administración</a>
+      </li>
+      <?php }?>
       <li class="nav-item">
-        <a class="nav-link" href="#">Pricing</a>
+        <a class="nav-link" href="/biblioteca/bases_datos.php">Bases de Datos</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" target="_blank" href="<?php echo new moodle_url('/message/index.php?id=43'); ?>">Soporte</a>
@@ -57,9 +72,165 @@ $resultcat = $DB->get_records_sql($sqlCat);
 </nav>
       
 <div class="container p-4">
+<div class="row">
+
+    <div class="custom-control custom-switch" id="avan">
+      <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
+      <label class="custom-control-label" for="customSwitch1">Búsqueda Avanzada</label>
+    </div>
+    <div class="col-md-12" id="avan-search">
+
+    <form id="search-avanzada">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="autor-s">Autor(es)</label>
+      <input type="text" class="form-control" id="autor-s" placeholder="Autor(es)">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="tema-s">Tema</label>
+      <input type="text" class="form-control" id="tema-s" placeholder="Tema">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="pal-claves">Palabras claves</label>
+    <input type="text" class="form-control" id="pal-claves" placeholder="Palabras claves separadas por ','">
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="tip-recur">Tipo de recursos</label>
+      <select id="tip-recur" class="form-control">
+      <option value="0">Seleccione</option>
+                        <?php foreach ($resultcat as $row) { ?>
+                            <option value="<?php echo $row->id ?>"><?php echo $row->nombre ?></option>
+                        <?php } ?>
+      </select>
+    </div>
+    <div class="form-group col-md-2">
+    <label for="anno-s">Año de Publicación</label>
+      <select id="anno-s" class="form-control">
+      <option value="0">Seleccione</option>
+                          <?php $year = date("Y"); for ($i = $year; $i >= 1945; $i--) { ?>
+                            <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                        <?php } ?>
+      </select>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Buscar</button>
+  <br>
+  <br>
+</form>
+    </div>
+
+  </div>
+
     <div class="row">
         <div class="col-md-3">
-        <ul class="list-group">
+        <?php if($isadmin) {?>
+        <div class="card" id="modify">
+               <div class="card-body">
+                   <form id="task-form">
+                       <input type="hidden" id="taskId">
+                       <div class="form-group">
+                           <label for="titulo">Título</label>
+                           <input type="text" id="title" required="true" placeholder="Título del recurso" class="form-control">
+                       </div>
+                       <div class="form-group">
+                           <label for="autor">Autor(es)</label>
+                           <input type="text" id="autor" required="true" placeholder="Autor o Autores" class="form-control">
+                       </div>
+                       <div class="form-group">
+                       <label for="tipo">Tipo de recurso</label>
+                          <select class="form-control" id="type">
+                          <option value="0">Seleccione</option>
+                        <?php foreach ($resultcat as $row) { ?>
+                            <option value="<?php echo $row->id ?>"><?php echo $row->nombre ?></option>
+                        <?php } ?>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                       <label for="asignatura">Asignatura</label>
+                       <input readonly="" type="text" id="asignatura" placeholder="Asignatura asignada" class="form-control">
+
+                        </div>
+                        <div class="form-group">
+                       <label for="tipo">Tipo de lectura</label>
+                          <select class="form-control" id="type_lect">
+                          <option value="0">Seleccione</option>
+                          <option value="obligatoria">Obligatoria</option>
+                          <option value="recomendada">Recomendada</option>
+                          <option value="libre">Libre</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                       <label for="year">Año Publicación</label>
+                          <select class="form-control" id="year">
+                          <option value="0">Seleccione</option>
+                          <?php $year = date("Y"); for ($i = $year; $i >= 1945; $i--) { ?>
+                            <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                        <?php } ?>
+                          </select>
+                        </div>
+                       <div class="form-group" id="div_resum">
+                          <label for="resumen">Resumen</label>
+                           <textarea  id="resumen"  cols="30" rows="8" class="form-control" placeholder="Resumen"></textarea>
+                       </div>
+                       <div class="form-group" id="div_clave">
+                           <label for="claves">Palabras claves</label>
+                           <input type="text"  id="claves" placeholder="Palabras claves" class="form-control">
+                       </div>
+                       <div class="form-group">
+                           <label for="conocimieno">Área de Conocimiento</label>
+                           <input type="text"  id="conocimiento" placeholder="Área de Conocimiento" class="form-control">
+                       </div>
+                       <div class="form-group">
+                           <label for="tema">Tema</label>
+                           <input type="text"  id="tema" placeholder="Tema" class="form-control">
+                       </div>
+                       <div class="form-group" id="div_revista" >
+                           <label for="revista">Revista</label>
+                           <input type="text" id="revista" placeholder="Revista" class="form-control">
+                       </div>
+                       <div class="form-group" id="div_edit" >
+                           <label for="editorial">Editorial</label>
+                           <input type="text" id="editorial" placeholder="Publicado por" class="form-control">
+                       </div>
+                       <div class="form-group" id="div_place" >
+                           <label for="editorial">Lugar Publicación</label>
+                           <input type="text" id="place" placeholder="Publicado en" class="form-control">
+                       </div>
+
+                       <div class="form-group" id="div_issn" >
+                           <label for="issn">ISSN</label>
+                           <input type="text" id="issn" placeholder="ISSN" class="form-control">
+                       </div>
+                       <div class="form-group" id="div_isbn" >
+                           <label for="isbn">ISBN</label>
+                           <input type="text" id="isbn" placeholder="ISBN" class="form-control">
+                       </div>
+                       <div class="form-group">
+                       <label for="idioma">Idioma</label>
+                          <select class="form-control" id="idioma">
+                          <option value="Español">Español</option>
+                        <option value="Inglés">Ingles</option>
+                        <option value="Portugues">Portugues</option>
+                        <option value="Catalan">Catalan</option>
+                        <option value="Frances">Frances</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                           <label for="url">URL Archivo</label>
+                           <input type="url" id="url" required="true" placeholder="Acceso desde Google Drive" class="form-control">
+                       </div>
+                       <button type="submit" class="btn btn-primary btn-block text-center">Guardar</button>
+
+                   </form>
+               </div>
+           </div>
+           <?php }?>
+           <?php if(!$isadmin) {?>
+        <ul class="list-group" id="meta">
   <li class="list-group-item d-flex justify-content-between align-items-center">
     Artículos de revistas
     <span class="badge badge-primary badge-pill" id="cant_rev"></span>
@@ -81,17 +252,14 @@ $resultcat = $DB->get_records_sql($sqlCat);
     <span class="badge badge-primary badge-pill"id="cant_gen"></span>
   </li>
 </ul>
+<?php }?>
         <div class="card border-secondary mb-3" style="max-width: 40rem;">
   
 </div>
         </div>
         <div class="col-md-9">
-        <div class="form-group">
-    <div class="custom-control custom-switch" id="edicion">
-      <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="checked">
-      <label class="custom-control-label" for="customSwitch1">Editar recursos</label>
-    </div>
 
+    <?php if($isadmin) {?>
            <table class="table table-hover table-sm" id="search-avanzado">
                <thead>
                  
@@ -108,6 +276,8 @@ $resultcat = $DB->get_records_sql($sqlCat);
                </tbody>
 
            </table>
+           <?php }?>
+           <?php if(!$isadmin) {?>
            <table class="table table-hover table-sm" id="search-simple">
                <thead>
                  
@@ -127,7 +297,7 @@ $resultcat = $DB->get_records_sql($sqlCat);
                </div>
 
            </table>
-
+  <?php }?>
         </div>
     </div>
 </div>

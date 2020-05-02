@@ -2,6 +2,15 @@
 require_once(dirname(__FILE__) . '../../config.php');
 global $DB;
 require_login();
+$admins = get_admins();
+$isadmin = false;
+foreach($admins as $admin) {
+    if ($USER->id == $admin->id) {
+        $isadmin = true;
+        break;
+    }
+}
+
 $courseid = $_SESSION['idCurso'];
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 $category = $DB->get_record('course_categories', array("id" => $courseid));
@@ -27,7 +36,7 @@ $resultcat = $DB->get_records_sql($sqlCat);
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="/biblioteca/menu.php">Biblioteca</a>
+  <a class="navbar-brand" href="/biblioteca">Biblioteca</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -40,12 +49,18 @@ $resultcat = $DB->get_records_sql($sqlCat);
       <li class="nav-item">
         <a class="nav-link" href="/biblioteca/searchs.php">Catálogo</a>
       </li>
+      <?php if($isadmin) {?>
+      <li class="nav-item" id="manager">
+        <a class="nav-link" href="/biblioteca/menu.php">Administración</a>
+      </li>
+      <?php }?>
       <li class="nav-item">
-        <a class="nav-link" href="#">Pricing</a>
+        <a class="nav-link" href="/biblioteca/bases_datos.php">Bases de Datos</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" target="_blank" href="<?php echo new moodle_url('/message/index.php?id=43'); ?>">Soporte</a>
       </li>
+      
     </ul>
     <ul class="navbar-nav ml-auto">
     <form class="form-inline my-2 my-lg-0">
@@ -61,16 +76,31 @@ $resultcat = $DB->get_records_sql($sqlCat);
         <div class="col-md-3">
            <div class="list-group">
              <a href="#" class="list-group-item list-group-item-action active">
-             Cras justo odio
+             Recursos disponibles
              </a>
-             <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in
+             <a href="/biblioteca/busqueda_avanzada.php?cat=2" class="list-group-item list-group-item-action">Artículos de revistas
              </a>
-            <a href="#" class="list-group-item list-group-item-action disabled">Morbi leo risus
-              </a>
+             <a href="/biblioteca/busqueda_avanzada.php?cat=1" class="list-group-item list-group-item-action">Libros
+             </a>
+             <a href="/biblioteca/busqueda_avanzada.php?cat=3" class="list-group-item list-group-item-action">Tesis
+             </a>
+             <a href="/biblioteca/busqueda_avanzada.php?cat=7" class="list-group-item list-group-item-action">Monografías
+             </a>
+             <a href="/biblioteca/busqueda_avanzada.php?cat=6" class="list-group-item list-group-item-action">Genéricos
+             </a>
            </div>
         </div>
         <div class="col-md-9">
-        <div class="jumbotron">
+        <div class="card my-4" id="task-result" >
+            <div class="alert alert-dismissible alert-primary" id="mssg">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>No se encuentra este titulo!</strong> <a href="#" class="alert-link">Modifique criterio de búsqueda</a> 
+                    </div>
+                <div class="card-body">
+                    <ul id="container"></ul>
+                </div>
+            </div>  
+        <div class="jumbotron" id="welcome">
         <h1 class="display-5">Bienvenidos a la Biblioteca de ICEB</h1>
         <p class="lead">A continuación encontrarás los diferentes recursos bibliográficos especializados de los que dispones para profundizar y ampliar conocimientos relacionados con tu programa de estudios. </p>
         <hr class="my-4">

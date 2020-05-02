@@ -3,12 +3,15 @@ $(document).ready(function(){
   $('#task-result').hide();
   $('#mssg').hide();
   $('#search-simple').hide();
+  $('#avan-search').hide();
+  $('#welcome').show();
   inicial();
 fetchTasks();  
 estadistica();
 
     $('#search').keyup(function(e){
          let search=$('#search').val();
+         $('#welcome').hide();
          $.ajax({
              url:'recurso-search.php',
              type:'POST',
@@ -120,6 +123,83 @@ estadistica();
  
       
   })
+
+  $('#search-avanzada').submit(function(e){
+     const dataSearch={
+       autor:$('#autor-s').val(),
+       tema:$('#tema-s').val(),
+       claves:$('#pal-claves').val(),
+       type:$('#tip-recur').val(),
+       anno:$('#anno-s').val()
+     };
+     $.post('avanzada.php',dataSearch,function(response){
+      $('#mssg').hide();
+            
+             let tasks= JSON.parse(response);
+                        
+             let template='';
+             let template1='';
+             let titu='';
+             let aut='';
+             let asig='';
+             let icon=`<i class="fa fa-book"></i>`;
+            
+               if(Object.entries(tasks).length === 0){
+                 $('#mssg').show();
+                 $('#task-result').hide();
+               }
+               
+             for (var clave in tasks){
+                // Controlando que json realmente tenga esa propiedad
+                if (tasks.hasOwnProperty(clave)) {
+                  // Mostrando en pantalla la clave junto a su valor.
+                  if(tasks[clave].idcategoria==4){
+                    icon=`<i class="fa fa-film"></i>`;
+                  } else if(tasks[clave].idcategoria==3){
+                       icon=`<i class="fa fa-graduation-cap"></i>`;
+                  }
+                  else if(tasks[clave].idcategoria==2||tasks[clave].idcategoria==7){
+                    icon=`<i class="fa fa-file-text"></i>`;
+                   }
+                   else if(tasks[clave].idcategoria==5){
+                    icon=`<i class="fa fa-file-sound-o"></i>`;
+                   }
+                  titu=tasks[clave].titulo;
+                  aut=tasks[clave].autor;
+                  asig=tasks[clave].materia;
+                 
+                  template+=`<tr taskId="${tasks[clave].id}">
+                  <td>${icon}</td>
+                 <td> <a href="#" class="task-item">${newTitle(titu,15)}</a></td>
+                  <td>${newTitle(aut,15)}</td>
+                  <td>${newTitle(asig,15)}</td>
+                  <td>
+                  <a href="recurso-detalle.php?cat=${tasks[clave].idcategoria}&id=${tasks[clave].id}" target="_black" class="btn btn-secondary btn-sm" role="button">Ver</a>
+                   <button id="recur_del" class="recurso-delete btn btn-danger btn-sm">ELIMINAR</button>
+                  </td>        
+                  </tr>`
+                  template1+=`<tr taskId="${tasks[clave].id}">
+                  <td>${icon}</td>
+                 <td> <a href="#" class="task-item">${newTitle(titu,15)}</a></td>
+                  <td>${newTitle(aut,15)}</td>
+                  <td>${newTitle(asig,15)}</td>
+                  <td>
+                  <a href="recurso-detalle.php?cat=${tasks[clave].idcategoria}&id=${tasks[clave].id}" target="_black" class="btn btn-secondary btn-sm" role="button">Ver</a>
+                   
+                  </td>        
+                  </tr>`
+                 
+                }
+               }
+             
+               $('#tasks-searchs').html(template);
+               $('#tasks-searchs-simple').html(template1);   
+      
+      $('#search-avanzada').trigger('reset');
+
+  });
+    e.preventDefault();
+  });
     
      $('#task-form').submit(function(e){
       const postData={
@@ -226,6 +306,7 @@ estadistica();
          $('#cant_mono').text(estadis.mono);
          $('#cant_gen').text(estadis.generi);
          if(estadis.isadmin==false){
+          $('#manager').hide();
           $('#edicion').hide();
           $('#search-avanzado').hide();
           $('#search-simple').show();
@@ -270,6 +351,15 @@ estadistica();
     } else {
       $('#search-avanzado').hide();
       $('#search-simple').show();
+    }
+
+  })
+  $(document).on('click','#customSwitch1',function(){
+    if ($(this).prop('checked')) {
+      
+      $('#avan-search').show();
+    } else {
+      $('#avan-search').hide();
     }
 
   })

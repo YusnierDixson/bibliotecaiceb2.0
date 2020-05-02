@@ -11,6 +11,14 @@ $category =$DB->get_record('course_categories', array("id" => $courseid ));
 
 
 require_login();
+$admins = get_admins();
+$isadmin = false;
+foreach($admins as $admin) {
+    if ($USER->id == $admin->id) {
+        $isadmin = true;
+        break;
+    }
+}
 
 $idr = required_param('id', PARAM_INT);
 $cat = optional_param('cat',1, PARAM_INT);
@@ -34,7 +42,7 @@ $resultsubcat = $DB->get_record('biblioteca_subcategoria', array('id' => $result
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="/biblioteca/menu.php">Biblioteca</a>
+  <a class="navbar-brand" href="/biblioteca">Biblioteca</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -47,14 +55,24 @@ $resultsubcat = $DB->get_record('biblioteca_subcategoria', array('id' => $result
       <li class="nav-item">
         <a class="nav-link" href="/biblioteca/searchs.php">Catálogo</a>
       </li>
+      <?php if($isadmin) {?>
+      <li class="nav-item" id="manager">
+        <a class="nav-link" href="/biblioteca/menu.php">Administración</a>
+      </li>
+      <?php }?>
       <li class="nav-item">
-        <a class="nav-link" href="#">Pricing</a>
+        <a class="nav-link" href="/biblioteca/bases_datos.php">Bases de Datos</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" target="_blank" href="<?php echo new moodle_url('/message/index.php?id=43'); ?>">Soporte</a>
       </li>
     </ul>
-    
+    <ul class="navbar-nav ml-auto">
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" id="search" type="search" placeholder="Buscar por titulo">
+      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Buscar</button>
+    </form>
+    </ul>
   </div>
 </nav>
       

@@ -4,7 +4,7 @@ global $DB;
 
      $id = $_POST['id'];
    
-    $result=$DB->get_record('biblioteca_recursos', array('id' => $id));;
+    $result=$DB->get_record('biblioteca_recursos', array('id' => $id));
     if (!$result) {
         die('Query Error');
 
