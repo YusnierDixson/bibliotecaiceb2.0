@@ -87,16 +87,17 @@ $resultcat = $DB->get_records_sql($sqlCat);
       <input type="text" class="form-control" id="autor-s" placeholder="Autor(es)">
     </div>
     <div class="form-group col-md-6">
-      <label for="tema-s">Tema</label>
-      <input type="text" class="form-control" id="tema-s" placeholder="Tema">
+      <label for="asig-s">Asignatura</label>
+      <input type="text" class="form-control" id="asig-s" placeholder="Asignatura">
     </div>
   </div>
-  <div class="form-group">
-    <label for="pal-claves">Palabras claves</label>
-    <input type="text" class="form-control" id="pal-claves" placeholder="Palabras claves separadas por ','">
-  </div>
-
   <div class="form-row">
+  <div class="custom-control custom-switch" id="idfiltre">
+      <input type="checkbox" class="custom-control-input" id="filtre" checked="">
+      <label class="custom-control-label" for="filtre">Agregar criterios</label>
+    </div>
+  </div>
+   <div class="form-row" id="filtro">
     <div class="form-group col-md-4">
       <label for="tip-recur">Tipo de recursos</label>
       <select id="tip-recur" class="form-control">

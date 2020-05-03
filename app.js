@@ -3,7 +3,8 @@ $(document).ready(function(){
   $('#task-result').hide();
   $('#mssg').hide();
   $('#search-simple').hide();
-  $('#avan-search').hide();
+  $('#filtro').hide();
+ // $('#avan-search').hide();
   $('#welcome').show();
   inicial();
 fetchTasks();  
@@ -127,13 +128,13 @@ estadistica();
   $('#search-avanzada').submit(function(e){
      const dataSearch={
        autor:$('#autor-s').val(),
-       tema:$('#tema-s').val(),
-       claves:$('#pal-claves').val(),
+       asigs:$('#asig-s').val(),
        type:$('#tip-recur').val(),
-       anno:$('#anno-s').val()
+       anno:$('#anno-s').val(),
      };
      $.post('avanzada.php',dataSearch,function(response){
       $('#mssg').hide();
+            console.log(response);
             
              let tasks= JSON.parse(response);
                         
@@ -195,7 +196,7 @@ estadistica();
                $('#tasks-searchs').html(template);
                $('#tasks-searchs-simple').html(template1);   
       
-      $('#search-avanzada').trigger('reset');
+     $('#search-avanzada').trigger('reset');
 
   });
     e.preventDefault();
@@ -360,6 +361,16 @@ estadistica();
       $('#avan-search').show();
     } else {
       $('#avan-search').hide();
+    }
+
+  })
+
+  $(document).on('click','#filtre',function(){
+    if ($(this).prop('checked')) {
+      
+      $('#filtro').show();
+    } else {
+      $('#filtro').hide();
     }
 
   })
