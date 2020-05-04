@@ -13,7 +13,7 @@ $PAGE->set_pagelayout('course');
 
 $PAGE->set_title("Biblioteca");
 $PAGE->set_heading("Biblioteca");
-$PAGE->set_url($CFG->wwwroot . '/biblioteca/busqueda.php');
+$PAGE->set_url($CFG->wwwroot . '/biblioteca/');
 
 
 
@@ -81,8 +81,8 @@ $result = $DB->get_records_sql($sql, array( $catr->id ));
 
 
 $thingnode = $PAGE->navigation->add($course->shortname, new moodle_url('/course/view.php?id='.$courseid));
-$thingnode1 = $thingnode->add('Biblioteca', new moodle_url('/biblioteca/menu.php'));
-$thingnode2 = $thingnode1->add($catr->nombre, new moodle_url('/biblioteca/busqueda.php'));
+$thingnode1 = $thingnode->add('Biblioteca', new moodle_url('/biblioteca/'));
+$thingnode2 = $thingnode1->add($catr->nombre, new moodle_url('/biblioteca/busqueda_avanzada.php?cat='.$cat));
 $thingnode2->make_active();
 
 echo $OUTPUT->header();
@@ -190,7 +190,7 @@ echo $OUTPUT->header();
          <tbody>
              <?php foreach ($result as $row){ ?>
              <tr>
-                 <td><a href="busqueda_detalle.php?cat=<?php echo $cat?>&id=<?php echo $row->id?>"><i class="fa fa-file-text" aria-hidden="true"></i>
+                 <td><a href="recurso-detalle.php?cat=<?php echo $cat?>&id=<?php echo $row->id?>"><i class="fa fa-file-text" aria-hidden="true"></i>
 </a></td>
                  <td><?php echo $row->titulo?></td>
                  <td><?php echo $row->autor?></td>

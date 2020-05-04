@@ -8,7 +8,7 @@ $PAGE->set_context(context_system::instance());
 
 $PAGE->set_title("Biblioteca");
 $PAGE->set_heading("Biblioteca");
-$PAGE->set_url($CFG->wwwroot . '/biblioteca/menu.php');
+$PAGE->set_url($CFG->wwwroot . '/biblioteca/');
 //$PAGE->navbar->add('Biblioteca');
 
 
@@ -16,7 +16,7 @@ $PAGE->set_url($CFG->wwwroot . '/biblioteca/menu.php');
 //course/view.php?id=2
 $thingnode = $PAGE->navigation->add($course->shortname, new moodle_url('/course/view.php?id='.$courseid));
 //$thingnode1 = $thingnode->add('Aspectos Generales del Programa', new moodle_url('/course/view.php?id='.$courseid.'&section=1'));
-$thingnode1 = $thingnode->add('Biblioteca', new moodle_url('/biblioteca/menu.php'));
+$thingnode1 = $thingnode->add('Biblioteca', new moodle_url('/biblioteca/'));
 $thingnode2 = $thingnode1->add('Bases de Datos', new moodle_url('/biblioteca/bases_datos.php'));
 $thingnode2->make_active();
 

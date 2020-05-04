@@ -3,7 +3,7 @@ $(document).ready(function(){
   $('#task-result').hide();
   $('#mssg').hide();
   $('#search-simple').hide();
-  $('#filtro').hide();
+  $('#filtro').show();
  // $('#avan-search').hide();
   $('#welcome').show();
   inicial();
